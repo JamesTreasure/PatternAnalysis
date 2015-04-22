@@ -1,0 +1,63 @@
+clear;
+close all;
+
+% Directory where images can be found---ensure this is correct
+imagedir = 'Images/TesterButterfly';
+imagedir2 = 'Images/ButterflyTraining';
+
+output = zeros(42,30);
+for a = 1:42;
+im = imread([imagedir, sprintf('/Butterfly%1d.gif', a)]);
+im = logical(im); %Convert the original intensity values into logical 1s and 0s
+c = chainCode(im);
+%% filter using the FT of the angles of the chaincode
+angles = c(3,:)*(2*pi/8);
+anglesFFT = fft(angles); %fast fourier transform
+
+N = 30; %number of lowest frequencies to keep
+
+filteredFFT = anglesFFT(1:N); % Apply the filter by scalar multipliacation
+% feature vector
+output(a,:) = abs(filteredFFT);
+end
+
+
+im = imread([imagedir2, sprintf('/Butterfly-a043.gif')]);
+im = logical(im); %Convert the original intensity values into logical 1s and 0s
+c = chainCode(im);
+angles = c(3,:)*(2*pi/8);
+anglesFFT = fft(angles); %fast fourier transform
+N = 30; %number of lowest frequencies to keep
+filteredFFT = anglesFFT(1:N); % Apply the filter by scalar multipliacation
+training = abs(filteredFFT);
+
+
+themean = mean(output)
+thecovariance = cov(output,1)
+
+tmean = (themean)';
+tcovariance = (thecovariance)';
+
+
+display(size(themean));
+display(size(thecovariance));
+display(size(training));
+
+eig_A = eig(thecovariance);
+flag = 0;
+for i = 1:rank(thecovariance)
+	if eig_A(i) <= 0 
+	flag = 1;
+	end
+end
+if flag == 1
+	disp('the matrix is not positive definite')
+	else
+	disp('the matrix is positive definite')
+end
+
+builtingaussian = mvnpdf(training,themean,thecovariance);
+%mygaussian = 1/((2*pi)^(30/2)*abs(thecovariance).^0.5)*exp(-0.5*(training-themean)'*(thecovariance^-1)*(training-themean))
+
+display(builtingaussian);
+%display(normal);
