@@ -1,4 +1,4 @@
-function [y] = mynewmean(x)
+function [y] = mymean(x)
 y = [];
 numberOfRows = size(x, 1);
     for i = 1:numberOfRows
