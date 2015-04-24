@@ -1,18 +1,17 @@
 function map = alien(tester)
-
-frequenciesToKeep = 7;
+frequenciesToKeep = 6;
 
 output = zeros(42,frequenciesToKeep);
 for a = 1:42;
-im = imread(sprintf('Images/AlienTraining/alien%1d.gif', a));
-im = logical(im); %Convert the original intensity values into logical 1s and 0s
-c = chainCode(im);
-%% filter using the FT of the angles of the chaincode
-angles = c(3,:)*(2*pi/8);
-anglesFFT = fft(angles); %fast fourier transform
-filteredFFT = anglesFFT(1:frequenciesToKeep); % Apply the filter by scalar multipliacation
-% feature vector
-output(a,:) = abs(filteredFFT)/100;
+    im = imread(sprintf('Images/AlienTraining/alien%1d.gif', a));
+    im = logical(im); %Convert the original intensity values into logical 1s and 0s
+    c = chainCode(im);
+    %% filter using the FT of the angles of the chaincode
+    angles = c(3,:)*(2*pi/8);
+    anglesFFT = fft(angles); %fast fourier transform
+    filteredFFT = anglesFFT(1:frequenciesToKeep); % Apply the filter by scalar multipliacation
+    % feature vector
+    output(a,:) = abs(filteredFFT)/100;
 end
 
 im = imread(tester);
@@ -22,7 +21,6 @@ angles = c(3,:)*(2*pi/8);
 anglesFFT = fft(angles); %fast fourier transform
 filteredFFT = anglesFFT(1:frequenciesToKeep); % Apply the filter by scalar multipliacation
 training = abs(filteredFFT)/100;
-
 
 themean = mean(output);
 thecovariance = cov(output,1);

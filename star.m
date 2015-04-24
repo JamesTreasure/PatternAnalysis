@@ -1,5 +1,5 @@
 function map = star(tester)
-frequenciesToKeep = 7;
+frequenciesToKeep = 6;
 
 output = zeros(35,frequenciesToKeep);
 for a = 1:35;

@@ -1,6 +1,5 @@
 function map = butterfly(tester)
-
-frequenciesToKeep = 7;
+frequenciesToKeep = 6;
 
 output = zeros(50,frequenciesToKeep);
 for a = 1:50;

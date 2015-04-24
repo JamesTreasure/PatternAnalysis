@@ -1,11 +1,9 @@
 clear;
 close all;
 
-tic
-
 confusionMatrix = zeros(4);
 
-imageDirectory = ('Images/OtherTest');
+imageDirectory = ('Images/AllTest');
 filePattern = fullfile(imageDirectory, '*.gif');
 files = dir(filePattern);
 for k = 1:length(files)
@@ -33,14 +31,10 @@ for k = 1:length(files)
         currentBiggest = 'Star';
     end
 
-    %fprintf('Alien is %d\n', theAlien); 
-    %fprintf('Butterfly is %d\n', theButterfly); 
-    %fprintf('Face is %d\n', theFace); 
-    %fprintf('Star is %d\n', theStar); 
-
-    fprintf('The image is %s.\n',currentBiggest);
-
     [pathstr,name,ext] = fileparts(tester);
+    fprintf('The classifier thinks the image is: %s.\n',currentBiggest);
+    fprintf('The actual image is: %s.\n', name);
+    
 
     if name(1:1) == 'A' && currentBiggest(1:1) == 'A'
         confusionMatrix(1,1) = confusionMatrix(1,1) + 1; 
@@ -83,5 +77,3 @@ correct = confusionMatrix(1,1) + confusionMatrix(2,2) + confusionMatrix(3,3) + c
 incorrect = sum(confusionMatrix(:)) - correct;
 display(correct)
 display(incorrect)
-
-toc

@@ -1,6 +1,5 @@
 function map = face(tester)
-
-frequenciesToKeep = 7;
+frequenciesToKeep = 6;
 
 output = zeros(100,frequenciesToKeep);
 for a = 1:100;
